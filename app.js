@@ -27,7 +27,7 @@
     const NOTIFICATION_SETTINGS_KEY = 'aa_internal_notification_settings_v1';
     const NOTIFICATION_SEEN_KEY = 'aa_internal_notification_seen_v1';
     const USER_CITY_STORAGE_KEY = 'aa_user_city_v1';
-    const APP_VERSION = '2.2.1';
+    const APP_VERSION = '2.2.2';
     const WHATS_NEW_STORAGE_KEY = 'aa_whats_new_2.2.0';
     const COACHMARK_STORAGE_KEY = 'aa_coachmarks_v2';
     let groupFilterMode = 'all';
@@ -585,8 +585,9 @@
 
     function groupShareText(g) {
         const phone = Array.isArray(g.p) ? g.p.join(' · ') : getPrimaryPhone(g);
-        const link = g.online ? (g.a||g.z||'') : build2GISLink(g);
-        return [g.n,g.c,g.online?'Онлайн':g.a,g.t,phone,link,'АА Казахстана: https://recovery-kz.github.io/aa-kazakhstan/'].filter(Boolean).join('\n');
+        const map = g.online ? '' : build2GISLink(g);
+        const online = g.online ? (g.a||g.z||'') : (g.z||'');
+        return [g.n,g.c,g.online?'Онлайн':g.a,g.t,phone,map,online,'АА Казахстана: https://recovery-kz.github.io/aa-kazakhstan/'].filter(Boolean).join('\n');
     }
 
     async function shareGroup(g) {
