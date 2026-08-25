@@ -27,8 +27,8 @@
     const NOTIFICATION_SETTINGS_KEY = 'aa_internal_notification_settings_v1';
     const NOTIFICATION_SEEN_KEY = 'aa_internal_notification_seen_v1';
     const USER_CITY_STORAGE_KEY = 'aa_user_city_v1';
-    const APP_VERSION = '2.2.0';
-    const WHATS_NEW_STORAGE_KEY = `aa_whats_new_${APP_VERSION}`;
+    const APP_VERSION = '2.2.1';
+    const WHATS_NEW_STORAGE_KEY = 'aa_whats_new_2.2.0';
     const COACHMARK_STORAGE_KEY = 'aa_coachmarks_v2';
     let groupFilterMode = 'all';
     let notificationTimer = null;
@@ -584,7 +584,7 @@
     }
 
     function groupShareText(g) {
-        const phone = getPrimaryPhone(g);
+        const phone = Array.isArray(g.p) ? g.p.join(' · ') : getPrimaryPhone(g);
         const link = g.online ? (g.a||g.z||'') : build2GISLink(g);
         return [g.n,g.c,g.online?'Онлайн':g.a,g.t,phone,link,'АА Казахстана: https://recovery-kz.github.io/aa-kazakhstan/'].filter(Boolean).join('\n');
     }
@@ -1270,14 +1270,14 @@ ${curLang === 'en' ? i18n.en.literatureShare : 'Литературный ком�
         return `<div class="status-badge s-closed"><div class="status-dot"></div>${i18n[curLang].sClosed}</div>`;
     }
 
-    function renderPhones(arr) {
+    function renderPhones(arr, labels = []) {
         const title = arr.length > 1 ? i18n[curLang].phonesLabel : i18n[curLang].phoneLabel;
         return `
             <div class="info-row">
                 <span class="info-row-icon">📞</span>
                 <div>
                     <div class="muted">${title}</div>
-                    <div class="group-phones">${arr.map(phone => `<a href="tel:${cleanPhone(phone)}" class="phone-link" data-track="group_phone" data-phone="${escapeHtml(phone)}">${escapeHtml(phone)}</a>`).join('')}</div>
+                    <div class="group-phones">${arr.map((phone, index) => `<div>${labels[index] ? `<div class="phone-contact-label">${escapeHtml(labels[index])}</div>` : ''}<a href="tel:${cleanPhone(phone)}" class="phone-link" data-track="group_phone" data-phone="${escapeHtml(phone)}">${escapeHtml(phone)}</a></div>`).join('')}</div>
                 </div>
             </div>
         `;
@@ -1472,7 +1472,7 @@ ${curLang === 'en' ? i18n.en.literatureShare : 'Литературный ком�
                     <div class="group-info">
                         ${renderAddress(g)}
                         <div class="info-row"><span class="info-row-icon">⏰</span><div><div class="muted">${i18n[curLang].scheduleLabel}</div><div>${escapeHtml(localizeSchedule(g.t || i18n[curLang].noSchedule))}</div></div></div>
-                        ${g.p && g.p.length ? renderPhones(g.p) : ''}
+                        ${g.p && g.p.length ? renderPhones(g.p, g.pl) : ''}
                     </div>
                     <div class="group-actions">${buildGroupActions(g)}<a class="report-error" href="${buildReportLink(g)}" target="_blank" rel="noopener noreferrer" data-track="report_error" data-group="${escapeHtml(g.n)}">${i18n[curLang].reportError}</a></div>
                 </div>`;
