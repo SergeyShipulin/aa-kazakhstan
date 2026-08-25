@@ -913,6 +913,7 @@
         .info-row-icon { width: 20px; flex-shrink: 0; text-align: center; color: var(--accent); padding-top: 1px; }
         .info-row > div { min-width: 0; flex: 1; }
         .group-phones { display: flex; flex-direction: column; gap: 7px; margin-top: 3px; }
+        .phone-contact-label { color: var(--text-sub); font-size: 11px; line-height: 1.35; font-weight: 750; margin: 0 0 2px; }
         .phone-link, .inline-link { color: var(--link); text-decoration: none; font-weight: 700; }
         .phone-link { font-size: 14px; }
         .inline-link { display: inline-block; margin-top: 4px; }
